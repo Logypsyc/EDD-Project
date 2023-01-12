@@ -1,30 +1,24 @@
-  GNU nano 5.4                                                              camera.py                                                                       import cv2
+import cv2
 
-cam = cv2.VideoCapture(0)
+from picamera2 import Picamera2
 
-cv2.namedWindow("le camera POV")
+# Grab images as numpy arrays and leave everything else to OpenCV.
 
-img_counter = 0
+cv2.startWindowThread()
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
+picam2.start()
 
 while True:
-    ret, frame = cam.read()
-    if not ret:
-        print("Failed to grab frame.")
-        break
-    cv2.imshow("le camera POV", frame)
+        im = picam2.capture_array()
 
-    k = cv2.waitKey(1)
-    if k%256 == 27:
-        # ESC pressed
-        print("Escape hit, closing...")
-        break
-    elif k%256 == 32:
-        # SPACE pressed
-        img_name = "capture.png"
-        cv2.imwrite(img_name, frame)
-        print("Image written!")
-        img_counter += 1
-
+        cv2.imshow("Camera", im)
+        k = cv2.waitKey(1)
+        if k%256 == 27:
+                # ESC pressed
+                print("Escape hit, closing...")
+                break
 cam.release()
 
 cv2.destroyAllWindows()
