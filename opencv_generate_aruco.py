@@ -47,13 +47,12 @@ if ARUCO_DICT.get(args["type"], None) is None:
 	sys.exit(0)
 
 # load the ArUCo dictionary
-arucoDict = cv2.aruco.getPredefinedDictionary(ARUCO_DICT[args["type"]])
-
+arucoDict = cv2.aruco.Dictionary_get(ARUCO_DICT[args["type"]])
 
 # allocate memory for the output ArUCo tag and then draw the ArUCo tag on the output image
-print("[INFO] generating ArUCo tag type '{}' with ID '{}'".format(type, args["id"]))
+print("[INFO] generating ArUCo tag type '{}' with ID '{}'".format(args["type"], args["id"]))
 tag = np.zeros((300, 300, 1), dtype="uint8")
-cv2.aruco.generateImageMarker(arucoDict, args["id"], 300, tag, 1)
+cv2.aruco.drawMarker(arucoDict, args["id"], 300, tag, 1)
 
 # write the generated ArUCo tag to disk and then display it to our screen
 cv2.imshow("ArUCo Tag", tag)
