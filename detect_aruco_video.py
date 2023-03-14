@@ -8,9 +8,7 @@ import sys
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-t", "--type", type=str,
-	default="DICT_ARUCO_ORIGINAL",
-	help="type of ArUCo tag to detect")
+ap.add_argument("-t", "--type", type=str, default="DICT_ARUCO_ORIGINAL", help="type of ArUCo tag to detect")
 args = vars(ap.parse_args())
 
 # define names of each possible ArUco tag OpenCV supports
@@ -57,8 +55,7 @@ while True:
 	frame = vs.read()
 	frame = imutils.resize(frame, width=1000)
 	# detect ArUco markers in the input frame
-	(corners, ids, rejected) = cv2.aruco.detectMarkers(frame,
-		arucoDict, parameters=arucoParams)
+	(corners, ids, rejected) = cv2.aruco.detectMarkers(frame, arucoDict, parameters=arucoParams)
 
 	# verify *at least* one ArUco marker was detected
 	if len(corners) > 0:
